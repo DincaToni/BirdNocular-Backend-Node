@@ -11,6 +11,4 @@ const User = z.object({
 });
 
 type User = z.infer<typeof User>;
-type UserWithId = WithId<User>;
-export default User;
-export { UserWithId };
+export { User };
