@@ -1,3 +1,4 @@
+import { Collection } from 'mongodb';
 import {z} from 'zod';
 
 const User = z.object({
