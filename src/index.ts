@@ -1,25 +1,17 @@
-import express, { Request, Response, Application } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { run } from "./db";
-import users from "./user/user.routes";
+import { createServer } from "./utils/server";
 
 //For env File
 dotenv.config();
 
-const app: Application = express();
 const port = process.env.PORT || 8000;
 
-app.use(cors());
+const app = createServer();
 
-run();
-
-app.get("/", (req: Request, res: Response) => {
-  res.send("Welcome to Express & TypeScript Server");
-});
-
-app.use("/users", users);
-
-app.listen(port, () => {
-  console.log(`Server is Fire at http://localhost:${port}`);
+app.then((x) => {
+  x.use(cors());
+  x.listen(port, () => {
+    console.log(`Server is Fire at http://localhost:${port}`);
+  });
 });
