@@ -44,4 +44,26 @@ const getUser = async (
   }
 };
 
-export { getUserListController, getUser };
+const registerUser = async (
+  req: Request<{}, User>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const body: User = await User.parse(req.body);
+
+    await client.connect();
+    const db: Collection<User> = client
+      .db("Development")
+      .collection<User>("USERS");
+
+    const user = await db.insertOne(body);
+    res.json(user).status(200);
+  } catch (err) {
+    next(err);
+  } finally {
+    console.log("DB connection closed!");
+  }
+};
+
+export { getUserListController, getUser, registerUser };
