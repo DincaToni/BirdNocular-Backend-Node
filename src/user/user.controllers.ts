@@ -3,6 +3,7 @@ import { User } from "./user.model";
 import { client } from "../db";
 import { ObjectId } from "mongodb";
 import { Collection } from "mongodb";
+import bcrypt from "bcrypt";
 
 const getUserListController = async (
   req: Request,
@@ -51,6 +52,14 @@ const registerUser = async (
 ) => {
   try {
     const body: User = await User.parse(req.body);
+
+    //password hashing
+    const saltRounds = 10;
+    bcrypt.genSalt(saltRounds, (err, salt) => {
+      bcrypt.hash(body.password, salt, (err, hash) => {
+        body.password = hash;
+      });
+    });
 
     await client.connect();
     const db: Collection<User> = client
