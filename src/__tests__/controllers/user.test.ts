@@ -32,3 +32,27 @@ describe("GET users/:id", () => {
     });
   });
 });
+
+describe("POST users/register", () => {
+  describe("Given that the user provides correct input", () => {});
+  describe("Given that the user provides an incorrect password", () => {
+    it("should return status 422 and error", async () => {
+      //return to correct the status
+      const body = {
+        firstName: "Johnicas",
+        lastName: "Doeica",
+        email: "john.doe@examplutz.com",
+        userName: "johndoe12",
+        password: "password123",
+        isDeleted: false,
+      };
+      await supertest(await app)
+        .post("/users/register")
+        .send(body)
+        .expect(422);
+      /*.end(function (err, res) {
+          if (err) throw err;
+        });*/
+    });
+  });
+});
